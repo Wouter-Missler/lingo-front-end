@@ -9,6 +9,8 @@ It's built using Next.js, a React framework that allows for server-side renderin
 
 To use the front end you will have to have the back-end running on your local machine, hosted on localhost:8080.
 
+You can find the live version of this code hosted [here](https://lingo-cisq-wm.vercel.app/)
+
 ## Learn More About Next.js
 
 To learn more about Next.js, take a look at the following resources:
