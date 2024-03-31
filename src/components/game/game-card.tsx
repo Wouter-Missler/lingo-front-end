@@ -1,15 +1,20 @@
+import styles from "./game-card.module.css";
 import { GameProgress } from "@/lib/definitions";
 import { Card } from "../ui/card";
 import Link from "next/link";
 import { gameStateToString } from "@/lib/utils";
+import GameFeedbackInfo from "./game-feedback-info";
+import type { ReactNode } from "react";
 
 type GameCardProps = {
     game: GameProgress;
+    playing?: boolean;
+    children?: ReactNode;
 };
 
-export default function GameCard({ game }: GameCardProps) {
+function GameCardInfo({ game, children }: GameCardProps) {
     return (
-        <Card className="hover:bg-accent transition-colors">
+        <Card className={`hover:bg-accent transition-colors ` + styles.card}>
             <Link
                 className="h-full block p-4"
                 href={`/game/${game.gameId}`}
@@ -20,46 +25,60 @@ export default function GameCard({ game }: GameCardProps) {
                         Game {game.gameId}
                     </h2>
                     <span className="text-sm font-semibold">
-                        Turn {game.turn}
+                        Turn {game.turn} — {game.score} points
                     </span>
                 </div>
                 <div className="flex items-center justify-between mt-2 text-sm text-gray-600">
                     <span>hint: {game.hint}</span>
                     <span>{gameStateToString(game.state)}</span>
                 </div>
-                <div className="mt-4">
+                <div className="mt-6 bg-primary-foreground/50 p-4 rounded-md">
                     <h3 className="text-sm font-semibold">Feedback</h3>
                     <ul className="mt-2 space-y-1">
                         {game.feedbackHistory.map((feedback) => (
-                            <li
+                            <GameFeedbackInfo
                                 key={feedback.id}
-                                className="flex items-center justify-between space-x-2"
-                            >
-                                <span>{feedback.attempt}</span>
-                                <ul className="flex space-x-1">
-                                    {feedback.marks.map((mark, index) => (
-                                        <li key={index}>
-                                            <span
-                                                className={`inline-block w-4 h-4 rounded-full ${
-                                                    mark === "INVALID"
-                                                        ? "bg-gray-500"
-                                                        : mark === "ABSENT"
-                                                        ? "bg-red-500"
-                                                        : mark === "PRESENT"
-                                                        ? "bg-orange-500"
-                                                        : mark === "CORRECT"
-                                                        ? "bg-green-500"
-                                                        : ""
-                                                }`}
-                                            />
-                                        </li>
-                                    ))}
-                                </ul>
-                            </li>
+                                feedback={feedback}
+                                size="small"
+                            />
                         ))}
                     </ul>
                 </div>
             </Link>
+
+            {children}
         </Card>
+    );
+}
+
+function GameCardPlaying({ game, children }: GameCardProps) {
+    return (
+        <Card className={`p-4 ` + styles.card}>
+            <div className="flex justify-between items-center">
+                <h2 className="text-xl font-semibold">Turn {game.turn}</h2>
+            </div>
+            <div className="flex items-center justify-between mt-2 text-gray-600 mb-12">
+                <span>hint: {game.hint}</span>
+                <span>{gameStateToString(game.state)}</span>
+            </div>
+
+            {game.feedbackHistory.map((feedback) => (
+                <GameFeedbackInfo
+                    key={feedback.id}
+                    feedback={feedback}
+                    size="large"
+                />
+            ))}
+
+            {children}
+        </Card>
+    );
+}
+
+export default function GameCard({ game, playing, children }: GameCardProps) {
+    return playing ? (
+        <GameCardPlaying game={game}>{children}</GameCardPlaying>
+    ) : (
+        <GameCardInfo game={game}>{children}</GameCardInfo>
     );
 }

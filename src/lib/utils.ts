@@ -16,3 +16,8 @@ export const gameStateToString = (status: GameState) => {
             return "Eliminated";
     }
 };
+
+export const parseDateTime = (date: string) => {
+    const parsedDate = new Date(date);
+    return parsedDate.toLocaleString();
+};

@@ -17,31 +17,14 @@ import { Button } from "./ui/button";
 
 export default function Navbar() {
     return (
-        <NavigationMenu className="min-w-full bg-primary-foreground">
-            <div className="container mx-auto flex items-center justify-between p-4">
+        <NavigationMenu className="min-w-full border-b border-input">
+            <div className="container mx-auto flex items-center justify-between px-4 py-2">
                 <NavigationMenuList>
-                    <NavigationMenuItem>
-                        <Button variant="outline" className="px-0">
-                            <Link
-                                href="/"
-                                className={navigationMenuTriggerStyle()}
-                            >
-                                Lingo Trainer
-                            </Link>
-                        </Button>
+                    <NavigationMenuItem className="py-2 mr-6 font-bold">
+                        <Link href="/">Lingo Trainer</Link>
                     </NavigationMenuItem>
                 </NavigationMenuList>
-                <NavigationMenuList className="flex items-center space-x-4">
-                    {/* <NavigationMenuItem>
-                        <Button variant="outline" className="px-0">
-                            <Link
-                                href="/docs"
-                                className={navigationMenuTriggerStyle()}
-                            >
-                                Documentation
-                            </Link>
-                        </Button>
-                    </NavigationMenuItem> */}
+                <NavigationMenuList>
                     <NavigationMenuItem>
                         <ThemeToggleButton />
                     </NavigationMenuItem>

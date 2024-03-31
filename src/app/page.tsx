@@ -12,7 +12,7 @@ export default function Home() {
                 <h1 className="text-5xl font-bold text-primary mb-2">
                     Welcome to Lingo Trainer.
                 </h1>
-                <h2 className="text-2xl font-semibold text-primary mb-12">
+                <h2 className="text-xl font-regular text-primary mb-12">
                     Continue a game below, or start a new game.
                 </h2>
                 <Suspense fallback={<div>Loading...</div>}>
