@@ -112,7 +112,7 @@ export default function GamePage({ params }: GamePageProps) {
                 {game.state === GameState.ELIMINATED && (
                     <p className="text-red-500 text-xl mb-12">
                         Game over! You have been eliminated. The word to guess
-                        was <span className="font-bold">"{solution}"</span>.
+                        was <span className="font-bold">{solution}</span>.
                     </p>
                 )}
 
