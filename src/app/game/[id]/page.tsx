@@ -2,7 +2,12 @@
 
 import GameCard from "@/components/game/game-card";
 import Navbar from "@/components/navbar";
-import { getGameProgress, makeGuessAttempt, startRound } from "@/lib/data";
+import {
+    getGameProgress,
+    getSolution,
+    makeGuessAttempt,
+    startRound,
+} from "@/lib/data";
 import { GameProgress, GameState } from "@/lib/definitions";
 import { parseDateTime } from "@/lib/utils";
 import { useEffect, useState } from "react";
@@ -19,6 +24,7 @@ type GamePageProps = {
 
 export default function GamePage({ params }: GamePageProps) {
     const [game, setGame] = useState<GameProgress | null>(null);
+    const [solution, setSolution] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<AxiosError | null>(null);
 
@@ -27,9 +33,14 @@ export default function GamePage({ params }: GamePageProps) {
             try {
                 const game = await getGameProgress(params.id);
                 setGame(game);
+
+                const solution = await getSolution(params.id);
+                setSolution(solution);
+
                 setLoading(false);
             } catch (error: any) {
                 setGame(null);
+                setSolution(null);
                 setLoading(false);
                 setError(error);
             }
@@ -100,7 +111,8 @@ export default function GamePage({ params }: GamePageProps) {
 
                 {game.state === GameState.ELIMINATED && (
                     <p className="text-red-500 text-xl mb-12">
-                        Game over! You have been eliminated.
+                        Game over! You have been eliminated. The word to guess
+                        was <span className="font-bold">"{solution}"</span>.
                     </p>
                 )}
 

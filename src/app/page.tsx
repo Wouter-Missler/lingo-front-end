@@ -15,9 +15,7 @@ export default function Home() {
                 <h2 className="text-xl font-regular text-primary mb-12">
                     Continue a game below, or start a new game.
                 </h2>
-                <Suspense fallback={<div>Loading...</div>}>
-                    <GameList />
-                </Suspense>
+                <GameList />
             </div>
         </>
     );

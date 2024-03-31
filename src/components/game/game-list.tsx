@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { GameProgress, GameState } from "@/lib/definitions";
 import { toast } from "sonner";
 import { Toggle } from "../ui/toggle";
+import GameListSkeleton from "./skeleton/game-list-skeleton";
 
 export default function GameList() {
     const [games, setGames] = useState<GameProgress[]>([]);
@@ -54,12 +55,18 @@ export default function GameList() {
                 </Toggle>
             </div>
             {loading ? (
-                <div>Loading...</div>
+                <GameListSkeleton />
             ) : (
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                     {getGamesToShow().map((game) => (
                         <GameCard key={game.gameId} game={game} />
                     ))}
+
+                    {getGamesToShow().length === 0 && (
+                        <div className="col-span-3 text-center text-gray-600">
+                            No games found. Start a new game above.
+                        </div>
+                    )}
                 </div>
             )}
         </>
