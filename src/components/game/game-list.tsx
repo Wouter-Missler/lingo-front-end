@@ -51,7 +51,13 @@ export default function GameList() {
                         setShowCompleted(toggleState);
                     }}
                 >
-                    Show completed games
+                    Show completed games (
+                    {
+                        games.filter(
+                            (game) => game.state === GameState.ELIMINATED
+                        ).length
+                    }
+                    )
                 </Toggle>
             </div>
             {loading ? (
