@@ -22,6 +22,7 @@ export default function ApiUrlDialog() {
         e:
             | React.MouseEvent<HTMLButtonElement>
             | React.FormEvent<HTMLFormElement>
+            | React.KeyboardEvent<HTMLInputElement>
     ) => {
         e.preventDefault();
 
@@ -52,10 +53,7 @@ export default function ApiUrlDialog() {
                         Saving will reload the page.
                     </DialogDescription>
                 </DialogHeader>
-                <form
-                    className="flex items-center space-x-3"
-                    onSubmit={handleSubmit}
-                >
+                <div className="flex items-center space-x-3">
                     <div className="grid flex-1 gap-2">
                         <Label htmlFor="link" className="sr-only">
                             API Url
@@ -66,6 +64,11 @@ export default function ApiUrlDialog() {
                             onChange={(e) =>
                                 setApiUrlInputValue(e.target.value)
                             }
+                            onKeyUp={(e) => {
+                                if (e.key === "Enter") {
+                                    handleSubmit(e);
+                                }
+                            }}
                         />
                     </div>
                     <Button
@@ -84,7 +87,7 @@ export default function ApiUrlDialog() {
                     >
                         Reset
                     </Button>
-                </form>
+                </div>
                 <DialogFooter className="sm:justify-start">
                     <DialogClose asChild>
                         <Button type="button" variant="secondary">

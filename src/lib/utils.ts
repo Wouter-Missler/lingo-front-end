@@ -1,6 +1,7 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { GameState } from "./definitions";
+import { useEffect, useState } from "react";
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
@@ -23,26 +24,23 @@ export const parseDateTime = (date: string) => {
 };
 
 export const useApiUrl = () => {
-    let apiUrl = process.env.NEXT_PUBLIC_API_URL;
-
-    // check if were in the browser
-    if (typeof window !== "undefined") {
-        const storedApiUrl = localStorage.getItem("API_URL");
-        if (storedApiUrl) {
-            apiUrl = storedApiUrl;
-        }
-    }
+    const getApi = () => {
+        return (
+            localStorage.getItem("API_URL") || process.env.NEXT_PUBLIC_API_URL
+        );
+    };
 
     const setApiUrl = (url: string) => {
         localStorage.setItem("API_URL", url);
     };
 
     const resetApiUrl = () => {
-        localStorage.removeItem("API_URL");
+        console.log("resetting");
+        localStorage.setItem("API_URL", process.env.NEXT_PUBLIC_API_URL || "");
     };
 
     return {
-        apiUrl,
+        apiUrl: getApi(),
         setApiUrl,
         resetApiUrl,
     };
