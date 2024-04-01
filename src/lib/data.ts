@@ -2,9 +2,9 @@ import axios from "axios";
 import { GameProgress } from "./definitions";
 import { useApiUrl } from "./utils";
 
-const { apiUrl: api } = useApiUrl();
-
 export async function getAllGames(): Promise<GameProgress[]> {
+    const { apiUrl: api } = useApiUrl();
+
     try {
         const response = await axios.get(api + "/game");
         return response.data;
@@ -14,6 +14,8 @@ export async function getAllGames(): Promise<GameProgress[]> {
 }
 
 export async function getGameProgress(gameId: number): Promise<GameProgress> {
+    const { apiUrl: api } = useApiUrl();
+
     try {
         const response = await axios.get(api + `/game/${gameId}`);
         return response.data;
@@ -23,6 +25,8 @@ export async function getGameProgress(gameId: number): Promise<GameProgress> {
 }
 
 export async function startGame(): Promise<GameProgress> {
+    const { apiUrl: api } = useApiUrl();
+
     try {
         const response = await axios.post(api + "/game/start");
         return response.data;
@@ -32,6 +36,8 @@ export async function startGame(): Promise<GameProgress> {
 }
 
 export async function startRound(gameId: number): Promise<GameProgress> {
+    const { apiUrl: api } = useApiUrl();
+
     try {
         const response = await axios.post(api + `/game/${gameId}/round/start`);
         return response.data;
@@ -44,6 +50,8 @@ export async function makeGuessAttempt(
     gameId: number,
     attempt: string
 ): Promise<GameProgress> {
+    const { apiUrl: api } = useApiUrl();
+
     try {
         const response = await axios.post(api + `/game/${gameId}/guess`, {
             attempt,
@@ -55,6 +63,8 @@ export async function makeGuessAttempt(
 }
 
 export async function getSolution(gameId: number): Promise<string> {
+    const { apiUrl: api } = useApiUrl();
+
     try {
         const response = await axios.get(api + `/game/${gameId}/solution`);
         return response.data;
