@@ -25,6 +25,10 @@ export const parseDateTime = (date: string) => {
 
 export const useApiUrl = () => {
     const getApi = () => {
+        if (typeof window === "undefined") {
+            return process.env.NEXT_PUBLIC_API_URL || "";
+        }
+
         return (
             localStorage.getItem("API_URL") || process.env.NEXT_PUBLIC_API_URL
         );
