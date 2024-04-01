@@ -33,7 +33,7 @@ function GameCardInfo({ game, children }: GameCardProps) {
                     <span>{gameStateToString(game.state)}</span>
                 </div>
                 <div className="mt-6 bg-primary-foreground/50 p-4 rounded-md">
-                    <h3 className="text-sm font-semibold">Feedback</h3>
+                    {/* <h3 className="text-sm font-semibold">Feedback</h3> */}
                     <ul className="mt-2 space-y-1">
                         {game.feedbackHistory.map((feedback) => (
                             <GameFeedbackInfo

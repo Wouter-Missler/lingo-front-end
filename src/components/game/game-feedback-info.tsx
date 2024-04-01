@@ -5,12 +5,12 @@ function GameFeedbackInfoLarge({ feedback }: { feedback: Feedback }) {
     // show the attempt in little boxes, colored accordingly, large size, the letters of the attempt in the boxes
     return (
         <li className="flex items-center justify-center space-x-2">
-            <ul className="flex space-x-4 mb-4">
+            <ul className="flex space-x-2 mb-2 md:space-x-4 md:mb-4">
                 {feedback.marks.map((mark, index) => (
                     <li key={index}>
                         <span
                             className={
-                                `text-6xl text-white w-32 grid place-items-center font-black aspect-square rounded-full ${
+                                `text-lg md:text-4xl lg:text-5xl text-white w-10 md:w-16 lg:w-24 grid place-items-center font-black aspect-square rounded-full ${
                                     mark === Mark.INVALID
                                         ? "bg-gray-500"
                                         : mark === Mark.ABSENT
