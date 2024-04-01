@@ -52,7 +52,7 @@ export default function GamePage({ params }: GamePageProps) {
         }
 
         fetchGame();
-    }, [params.id]);
+    }, [params.id, apiUrl]);
 
     async function handleAttempt(attempt: string) {
         try {
