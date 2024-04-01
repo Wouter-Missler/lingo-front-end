@@ -53,6 +53,9 @@ export default function GamePage({ params }: GamePageProps) {
         try {
             const updatedGame = await makeGuessAttempt(params.id, attempt);
             setGame(updatedGame);
+
+            const solution = await getSolution(params.id);
+            setSolution(solution);
         } catch (error: any) {
             setError(error);
         }
