@@ -7,7 +7,7 @@ function GameFeedbackInfoLarge({ feedback }: { feedback: Feedback }) {
         <li className="flex items-center justify-center space-x-2">
             <ul className="flex space-x-2 mb-2 md:space-x-4 md:mb-4">
                 {feedback.marks.map((mark, index) => (
-                    <li key={index}>
+                    <li key={mark + "-" + index}>
                         <span
                             className={
                                 `text-lg md:text-4xl lg:text-5xl text-white w-10 md:w-16 lg:w-24 grid place-items-center font-black aspect-square rounded-full ${
