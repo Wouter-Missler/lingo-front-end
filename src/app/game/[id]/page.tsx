@@ -15,6 +15,7 @@ import GameBreadcrumb from "@/components/game-breadcrumb";
 import axios, { Axios, AxiosError } from "axios";
 import GameInput from "@/components/game/game-input";
 import { Button } from "@/components/ui/button";
+import GameCardSkeletonPlaying from "@/components/game/skeleton/game-card-skeleton-playing";
 
 type GamePageProps = {
     params: {
@@ -84,7 +85,15 @@ export default function GamePage({ params }: GamePageProps) {
                     <h1 className="text-5xl font-bold text-primary mb-3">
                         Game {params.id}
                     </h1>
-                    <div>Loading...</div>
+                    <div className="flex justify-between items-center">
+                        <h2 className="text-xl font-regular text-primary mb-12">
+                            Started on ...
+                        </h2>
+                        <h2 className="text-xl font-regular text-primary mb-12">
+                            Score: ...
+                        </h2>
+                    </div>
+                    <GameCardSkeletonPlaying />
                 </div>
             </>
         );

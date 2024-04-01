@@ -5,7 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 
 const merriweather = Merriweather({
-    weight: ["300", "700"],
+    weight: ["300", "700", "900"],
     subsets: ["latin"],
 });
 
