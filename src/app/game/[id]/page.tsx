@@ -12,7 +12,7 @@ import { GameProgress, GameState } from "@/lib/definitions";
 import { parseDateTime } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import GameBreadcrumb from "@/components/game-breadcrumb";
-import { AxiosError } from "axios";
+import axios, { Axios, AxiosError } from "axios";
 import GameInput from "@/components/game/game-input";
 import { Button } from "@/components/ui/button";
 
@@ -27,6 +27,9 @@ export default function GamePage({ params }: GamePageProps) {
     const [solution, setSolution] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<AxiosError | null>(null);
+
+    // error state for game input
+    const [gameInputError, setGameInputError] = useState<string | null>(null);
 
     useEffect(() => {
         async function fetchGame() {
@@ -56,8 +59,13 @@ export default function GamePage({ params }: GamePageProps) {
 
             const solution = await getSolution(params.id);
             setSolution(solution);
-        } catch (error: any) {
-            setError(error);
+        } catch (error: any | AxiosError) {
+            console.log(error);
+            if (axios.isAxiosError(error)) {
+                setGameInputError(error.response?.data.message);
+            } else {
+                setGameInputError(error.message);
+            }
         }
     }
 
@@ -138,7 +146,11 @@ export default function GamePage({ params }: GamePageProps) {
 
                 <GameCard game={game} playing={true}>
                     {game.state === GameState.PLAYING && (
-                        <GameInput hint={game.hint} onSubmit={handleAttempt} />
+                        <GameInput
+                            hint={game.hint}
+                            onSubmit={handleAttempt}
+                            error={gameInputError}
+                        />
                     )}
                 </GameCard>
             </div>
