@@ -24,8 +24,13 @@ export const parseDateTime = (date: string) => {
 
 export const useApiUrl = () => {
     let apiUrl = process.env.NEXT_PUBLIC_API_URL;
-    if (localStorage.getItem("API_URL")) {
-        apiUrl = localStorage.getItem("API_URL") as string;
+
+    // check if were in the browser
+    if (typeof window !== "undefined") {
+        const storedApiUrl = localStorage.getItem("API_URL");
+        if (storedApiUrl) {
+            apiUrl = storedApiUrl;
+        }
     }
 
     const setApiUrl = (url: string) => {
