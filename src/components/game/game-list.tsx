@@ -53,9 +53,14 @@ export default function GameList() {
             );
     }
 
+    function getCompletedGamesCount() {
+        return games.filter((game) => game.state === GameState.ELIMINATED)
+            .length;
+    }
+
     return (
         <>
-            <div className="flex items-center space-x-4 mb-12">
+            <div className="flex max-sm:flex-col max-sm:space-y-4 items-center space-x-4 mb-12">
                 <Button
                     onClick={handleStartGame}
                     disabled={error ? true : false}
@@ -68,13 +73,7 @@ export default function GameList() {
                         setShowCompleted(toggleState);
                     }}
                 >
-                    Show completed games (
-                    {
-                        games.filter(
-                            (game) => game.state === GameState.ELIMINATED
-                        ).length
-                    }
-                    )
+                    Show completed games ({getCompletedGamesCount()})
                 </Toggle>
             </div>
             {loading ? (
