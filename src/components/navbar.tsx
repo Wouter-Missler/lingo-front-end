@@ -11,9 +11,20 @@ import {
     NavigationMenuViewport,
     navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
+
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog";
+
 import Link from "next/link";
 import { ThemeToggleButton } from "./ui/theme-toggle-button";
 import { Button } from "./ui/button";
+import ApiUrlDialog from "./api-url-dialog";
 
 export default function Navbar() {
     return (
@@ -25,6 +36,9 @@ export default function Navbar() {
                     </NavigationMenuItem>
                 </NavigationMenuList>
                 <NavigationMenuList>
+                    <NavigationMenuItem>
+                        <ApiUrlDialog />
+                    </NavigationMenuItem>
                     <NavigationMenuItem>
                         <ThemeToggleButton />
                     </NavigationMenuItem>
