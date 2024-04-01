@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import { Toggle } from "../ui/toggle";
 import GameListSkeleton from "./skeleton/game-list-skeleton";
 import { Axios, AxiosError } from "axios";
+import { useApiUrl } from "@/lib/utils";
 
 export default function GameList() {
     const [games, setGames] = useState<GameProgress[]>([]);
@@ -16,10 +17,12 @@ export default function GameList() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<AxiosError | null>(null);
 
+    const { apiUrl } = useApiUrl() as { apiUrl: string };
+
     useEffect(() => {
         async function fetchGames() {
             try {
-                const games = await getAllGames();
+                const games = await getAllGames(apiUrl);
                 setGames(games);
             } catch (error: any) {
                 setError(error);
@@ -33,7 +36,7 @@ export default function GameList() {
     }, []);
 
     async function handleStartGame() {
-        const game = await startGame();
+        const game = await startGame(apiUrl);
         setGames((games) => [game, ...games]);
         toast.success("Your game has started with ID " + game.gameId);
     }

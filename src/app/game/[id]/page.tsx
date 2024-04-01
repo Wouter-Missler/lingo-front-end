@@ -9,7 +9,7 @@ import {
     startRound,
 } from "@/lib/data";
 import { GameProgress, GameState } from "@/lib/definitions";
-import { parseDateTime } from "@/lib/utils";
+import { parseDateTime, useApiUrl } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import GameBreadcrumb from "@/components/game-breadcrumb";
 import axios, { Axios, AxiosError } from "axios";
@@ -28,16 +28,18 @@ export default function GamePage({ params }: GamePageProps) {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<AxiosError | null>(null);
 
+    const { apiUrl } = useApiUrl() as { apiUrl: string };
+
     // error state for game input
     const [gameInputError, setGameInputError] = useState<string | null>(null);
 
     useEffect(() => {
         async function fetchGame() {
             try {
-                const game = await getGameProgress(params.id);
+                const game = await getGameProgress(apiUrl, params.id);
                 setGame(game);
 
-                const solution = await getSolution(params.id);
+                const solution = await getSolution(apiUrl, params.id);
                 setSolution(solution);
 
                 setLoading(false);
@@ -54,10 +56,14 @@ export default function GamePage({ params }: GamePageProps) {
 
     async function handleAttempt(attempt: string) {
         try {
-            const updatedGame = await makeGuessAttempt(params.id, attempt);
+            const updatedGame = await makeGuessAttempt(
+                apiUrl,
+                params.id,
+                attempt
+            );
             setGame(updatedGame);
 
-            const solution = await getSolution(params.id);
+            const solution = await getSolution(apiUrl, params.id);
             setSolution(solution);
         } catch (error: any | AxiosError) {
             console.log(error);
@@ -134,7 +140,10 @@ export default function GamePage({ params }: GamePageProps) {
                         </p>
                         <Button
                             onClick={async () => {
-                                const updatedGame = await startRound(params.id);
+                                const updatedGame = await startRound(
+                                    apiUrl,
+                                    params.id
+                                );
                                 setGame(updatedGame);
                             }}
                             className="bg-primary text-primary-foreground"
