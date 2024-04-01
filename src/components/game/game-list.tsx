@@ -8,16 +8,24 @@ import { GameProgress, GameState } from "@/lib/definitions";
 import { toast } from "sonner";
 import { Toggle } from "../ui/toggle";
 import GameListSkeleton from "./skeleton/game-list-skeleton";
+import { Axios, AxiosError } from "axios";
 
 export default function GameList() {
     const [games, setGames] = useState<GameProgress[]>([]);
     const [showCompleted, setShowCompleted] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<AxiosError | null>(null);
 
     useEffect(() => {
         async function fetchGames() {
-            const games = await getAllGames();
-            setGames(games);
+            try {
+                const games = await getAllGames();
+                setGames(games);
+            } catch (error: any) {
+                setError(error);
+                console.error(error);
+            }
+
             setLoading(false);
         }
 
@@ -45,8 +53,14 @@ export default function GameList() {
     return (
         <>
             <div className="flex items-center space-x-4 mb-12">
-                <Button onClick={handleStartGame}>Start a new game</Button>
+                <Button
+                    onClick={handleStartGame}
+                    disabled={error ? true : false}
+                >
+                    Start a new game
+                </Button>
                 <Toggle
+                    disabled={error ? true : false}
                     onPressedChange={(toggleState) => {
                         setShowCompleted(toggleState);
                     }}
@@ -62,19 +76,29 @@ export default function GameList() {
             </div>
             {loading ? (
                 <GameListSkeleton />
-            ) : (
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-                    {getGamesToShow().map((game) => (
-                        <GameCard key={game.gameId} game={game} />
-                    ))}
-
-                    {getGamesToShow().length === 0 && (
-                        <div className="col-span-3 text-center text-gray-600">
-                            No games found. Start a new game above.
-                        </div>
-                    )}
+            ) : error ? (
+                <div className="text-orange-500">
+                    Error loading games: {error?.message}
                 </div>
+            ) : (
+                <GameListContent games={getGamesToShow()} />
             )}
         </>
+    );
+}
+
+function GameListContent({ games }: { games: GameProgress[] }) {
+    return (
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {games.map((game) => (
+                <GameCard key={game.gameId} game={game} />
+            ))}
+
+            {games.length === 0 && (
+                <div className="col-span-3 text-center text-gray-600">
+                    No games found. Start a new game above.
+                </div>
+            )}
+        </div>
     );
 }
