@@ -1,6 +1,5 @@
 import axios from "axios";
 import { GameProgress } from "./definitions";
-import { useApiUrl } from "./utils";
 
 export async function getAllGames(api: string): Promise<GameProgress[]> {
     try {
@@ -17,6 +16,12 @@ export async function getGameProgress(
 ): Promise<GameProgress> {
     try {
         const response = await axios.get(api + `/game/${gameId}`);
+
+        // sort the feedback history by id
+        response.data.feedbackHistory.sort(
+            (a: { id: number }, b: { id: number }) => a.id - b.id
+        );
+
         return response.data;
     } catch (error) {
         throw error;

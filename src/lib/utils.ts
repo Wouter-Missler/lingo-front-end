@@ -18,9 +18,25 @@ export const gameStateToString = (status: GameState) => {
     }
 };
 
-export const parseDateTime = (date: string) => {
+export const parseDateTime = (date: string, includeTime?: boolean) => {
     const parsedDate = new Date(date);
-    return parsedDate.toLocaleString();
+
+    // desired output: August 19, 1975 at 11:15 PM
+    const options: Intl.DateTimeFormatOptions = {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+    };
+
+    if (includeTime) {
+        options.hour = "numeric";
+        options.minute = "numeric";
+    }
+
+    // get the current locale
+    const locale = navigator.language;
+
+    return parsedDate.toLocaleDateString(locale, options);
 };
 
 export const useApiUrl = () => {

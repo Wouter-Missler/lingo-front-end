@@ -17,11 +17,11 @@ import GameInput from "@/components/game/game-input";
 import { Button } from "@/components/ui/button";
 import GameCardSkeletonPlaying from "@/components/game/skeleton/game-card-skeleton-playing";
 
-type GamePageProps = {
+type GamePageProps = Readonly<{
     params: {
         id: number;
     };
-};
+}>;
 
 export default function GamePage({ params }: GamePageProps) {
     const [game, setGame] = useState<GameProgress | null>(null);
@@ -128,7 +128,7 @@ export default function GamePage({ params }: GamePageProps) {
                 </h1>
                 <div className="flex justify-between items-center">
                     <h2 className="text-xl font-regular text-primary mb-12">
-                        Started on {parseDateTime(game.createDate)}
+                        Started on {parseDateTime(game.createDate, true)}
                     </h2>
                     <h2 className="text-xl font-regular text-primary mb-12">
                         Score: {game.score}

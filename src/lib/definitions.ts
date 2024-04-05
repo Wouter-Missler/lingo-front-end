@@ -11,6 +11,13 @@ export enum Mark {
     CORRECT = "CORRECT",
 }
 
+export enum MarkColors {
+    INVALID = "bg-gray-500",
+    ABSENT = "bg-red-500",
+    PRESENT = "bg-orange-500",
+    CORRECT = "bg-green-500",
+}
+
 export type Feedback = {
     id: number;
     attempt: string;
