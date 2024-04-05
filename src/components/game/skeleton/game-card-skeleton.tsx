@@ -8,10 +8,13 @@ export default function GameCardSkeleton() {
                 <Skeleton className="h-4 w-[150px]" />
             </div>
             <div className="flex justify-between space-x-2 mb-6">
-                <Skeleton className="h-2 w-[100px]" />
-                <Skeleton className="h-2 w-[100px]" />
+                <Skeleton className="h-4 w-[75px]" />
+                <Skeleton className="h-4 w-[100px]" />
             </div>
             <Skeleton className="w-full aspect-[4/1.5] rounded-xl" />
+            <div className="flex justify-end items-center mt-4">
+                <Skeleton className="h-4 w-[100px]" />
+            </div>
         </div>
     );
 }
