@@ -4,7 +4,6 @@ import Link from "next/link";
 import { gameStateToString, parseDateTime } from "@/lib/utils";
 import GameFeedbackInfo from "./game-feedback-info";
 import type { ReactNode } from "react";
-import clsx from "clsx";
 import { motion } from "framer-motion";
 
 type GameCardProps = Readonly<{
@@ -16,9 +15,9 @@ type GameCardProps = Readonly<{
 function GameCardInfo({ game, children }: GameCardProps) {
     return (
         <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10 }}
             layout
         >
             <Card className="hover:bg-accent transition-colors h-full">

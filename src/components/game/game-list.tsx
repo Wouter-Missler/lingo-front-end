@@ -8,10 +8,10 @@ import { GameProgress, GameState } from "@/lib/definitions";
 import { toast } from "sonner";
 import { Toggle } from "../ui/toggle";
 import GameListSkeleton from "./skeleton/game-list-skeleton";
-import { Axios, AxiosError } from "axios";
+import type { AxiosError } from "axios";
 import { useApiUrl } from "@/lib/utils";
 
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, MotionConfig } from "framer-motion";
 
 export default function GameList() {
     const [games, setGames] = useState<GameProgress[]>([]);
@@ -88,13 +88,19 @@ export default function GameList() {
     );
 }
 
-function GameListContent({ games }: { games: GameProgress[] }) {
+type GameListContentProps = Readonly<{
+    games: GameProgress[];
+}>;
+
+function GameListContent({ games }: GameListContentProps) {
     return (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
             <AnimatePresence mode="popLayout">
-                {games.map((game) => (
-                    <GameCard key={game.gameId} game={game} />
-                ))}
+                <MotionConfig transition={{ duration: 0.3, ease: "easeOut" }}>
+                    {games.map((game) => (
+                        <GameCard key={game.gameId} game={game} />
+                    ))}
+                </MotionConfig>
             </AnimatePresence>
 
             {games.length === 0 && (
