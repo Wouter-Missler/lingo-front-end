@@ -11,6 +11,8 @@ import GameListSkeleton from "./skeleton/game-list-skeleton";
 import { Axios, AxiosError } from "axios";
 import { useApiUrl } from "@/lib/utils";
 
+import { AnimatePresence } from "framer-motion";
+
 export default function GameList() {
     const [games, setGames] = useState<GameProgress[]>([]);
     const [showCompleted, setShowCompleted] = useState(false);
@@ -61,14 +63,11 @@ export default function GameList() {
     return (
         <>
             <div className="flex max-sm:flex-col max-sm:space-y-4 items-center space-x-4 mb-12">
-                <Button
-                    onClick={handleStartGame}
-                    disabled={error ? true : false}
-                >
+                <Button onClick={handleStartGame} disabled={!!error}>
                     Start a new game
                 </Button>
                 <Toggle
-                    disabled={error ? true : false}
+                    disabled={!!error}
                     onPressedChange={(toggleState) => {
                         setShowCompleted(toggleState);
                     }}
@@ -92,9 +91,11 @@ export default function GameList() {
 function GameListContent({ games }: { games: GameProgress[] }) {
     return (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {games.map((game) => (
-                <GameCard key={game.gameId} game={game} />
-            ))}
+            <AnimatePresence mode="popLayout">
+                {games.map((game) => (
+                    <GameCard key={game.gameId} game={game} />
+                ))}
+            </AnimatePresence>
 
             {games.length === 0 && (
                 <div className="col-span-3 text-center text-gray-600">
